@@ -1,0 +1,20 @@
+一 node的安装
+1：npm config set prefix "E:\nodejs\node_global"
+   npm config set cache "E:\nodejs\node_cache"
+
+2：环境变量
+
+3：npm install express -g
+
+4：npm install web3@^0.20.0 
+
+
+二 安装Geth
+
+http://ethfans.org/wikis/Ethereum-Geth-Mirror
+
+三：搭建以太坊私有链,执行挖矿
+
+http://www.cnblogs.com/zl03jsj/p/6858928.html
+
+geth --datadir E:\\eth\\Geth\\private-geth\\data\\00 --networkid 20180319 --rpc --rpccorsdomain "*" --nodiscover --port 16333 --rpcapi 'web3,eth,net' --rpcport 8546 console

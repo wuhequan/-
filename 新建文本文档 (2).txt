@@ -1,0 +1,29 @@
+geth --datadir E:\\Eth\\Geth\\private-geth\\data\\00 --networkid 20180319 --rpc --rpccorsdomain "*" --nodiscover --port 16333 --rpcapi 'web3,eth,net,personal' --rpcport 8546 console
+
+
+miner.start(4);admin.sleepBlocks(1);miner.stop();
+
+personal.unlockAccount(eth.accounts[0])
+
+
+http://remix.ethereum.org
+
+http://127.0.0.1:3000/getCanNum?address=0xd9ee24af31eacff4e8f07b260152a86d043b1c95
+
+
+
+
+账户A：0xd9ee24af31eacff4e8f07b260152a86d043b1c95 1 
+账户B：0x33a3b2dfff4a9edf1f944e1e769ee0360b1b4621 3
+账户C：0xe8ab6646d78713f9b7b4e217a94b0762e1389e43 1
+账户D：0x59019364d6674bd64fb40efa43161e0a86520a09 0
+
+
+personal.unlockAccount("0xd9ee24af31eacff4e8f07b260152a86d043b1c95","123456")
+personal.unlockAccount("0x33a3b2dfff4a9edf1f944e1e769ee0360b1b4621","123456")
+personal.unlockAccount("0xe8ab6646d78713f9b7b4e217a94b0762e1389e43","123456")
+
+
+
+eth.getBalance("0xd9ee24af31eacff4e8f07b260152a86d043b1c95")
+eth.getBalance("0x33a3b2dfff4a9edf1f944e1e769ee0360b1b4621")

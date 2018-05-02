@@ -1,0 +1,205 @@
+
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="keywords" content="html投票插件，html多组合投票插件" />
+<meta name="description" content="html投票插件" />
+<title>智能合约-投票系统</title>
+<style type="text/css">
+#Demo{
+ border-style:solid;
+ width: 500px;
+ margin: 0 auto;
+ margin-top: 100px;
+ padding-right: 36px;
+ background-color: #fff;
+}
+#VoteMain {
+  width: 500px;
+  height: 400px;
+  margin: 0 auto;
+  margin-top: 0px;
+  padding: 20px 20px 20px 20px;
+}
+.VoteItem {
+  width: 100px;
+  height: 100%;
+  border: 1px solid #ddd;
+  float: left;
+  margin-left: 20px;
+}
+.VoteValue {
+  width: 50px;
+  height: 100px;
+  background-color: #238EE4;
+  margin: 0 auto;
+  margin-bottom: 0px;
+  border: 1px solid #fff;
+}
+.VoteItem:hover .VoteSpan {
+  display: block;
+}
+.VoteValue:hover {
+  -webkit-box-shadow: 0px 0px 5px #808080;
+  -moz-box-shadow: 0px 0px 5px #808080;
+  box-shadow: 0px 0px 5px #808080;
+}
+.VoteSpan {
+  width: 80px;
+  height: 30px;
+  background-color: #000;
+  float: left;
+  margin-top: -38px;
+  margin-left: -15px;
+  text-align: center;
+  line-height: 30px;
+  color: #fff;
+  text-align: center;
+  position: relative;
+  display: none;
+}
+.VoteImg {
+  width: 60px;
+  height: 60px;
+  position: relative;
+  -webkit-box-shadow: 0px 0px 5px #ccc;
+  -moz-box-shadow: 0px 0px 5px #ccc;
+  box-shadow: 0px 0px 5px #ccc;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  margin: 0 auto;
+  margin-left: 5px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+.VoteImg:hover {
+  border-color: #4e72b8;
+  -webkit-box-shadow: 0px 0px 5px #444693;
+  -moz-box-shadow: 0px 0px 5px #444693;
+  box-shadow: 0px 0px 5px #444693;
+}
+.VoteText {
+  font: 15px "微软雅黑", Arial, Helvetica, sans-serif;
+  text-align: center;
+  font-weight: 600;
+  color: #333;
+  line-height: 10px;
+  margin-top: 5px;
+}
+.VoteText span{
+  color: #000;
+  font-weight: bold;
+
+}
+.VoteSpanTri {
+  position: absolute;
+  width: 10px;
+  height: 6px;
+  margin-top: 30px;
+  margin-left: -15px;
+}
+</style>
+</head>
+
+<body style="background-color: #ddd">
+<div id="Demo" style="text-align:center;">
+  <h1>以太坊智能合约-投票系统</h1>
+  <div id="VoteMain"> </div>
+</div>
+<script src="jquery-2.2.4.min .js"></script>
+<script type="text/javascript">
+$(document).ready(function(e) {
+  Vote.Init();
+});
+
+ var address1=0;
+ var address2=0;
+ var address3=0;
+ var address4=0;
+ $.ajaxSetup({
+      async: false
+  });
+ $.post("http://127.0.0.1:3000/getCanNum",
+  {
+    address1:"0xd9ee24af31eacff4e8f07b260152a86d043b1c95",
+    address2:"0x33a3b2dfff4a9edf1f944e1e769ee0360b1b4621",
+    address3:"0xe8ab6646d78713f9b7b4e217a94b0762e1389e43",
+    address4:"0x59019364d6674bd64fb40efa43161e0a86520a09",
+  },
+  function(data){
+    var data=eval('(' + data + ')');
+    vote1=data.vote1;
+    vote2=data.vote2;
+    vote3=data.vote3;
+    vote4=data.vote4;
+  }
+ );
+
+
+var Vote={
+  voteJson:[
+  {Name:"小铨<span>("+vote1+")</span>",Img:"img/LeeSin.png",Value:vote1,address:"0xd9ee24af31eacff4e8f07b260152a86d043b1c95"},
+  {Name:"杨顺<span>("+vote2+")</span>",Img:"img/Ahri.png",Value:vote2,address:"0x33a3b2dfff4a9edf1f944e1e769ee0360b1b4621"},
+  {Name:"鑫均<span>("+vote3+")</span>",Img:"img/Sona.png",Value:vote3,address:"0xe8ab6646d78713f9b7b4e217a94b0762e1389e43"},
+  {Name:"小宝<span>("+vote4+")</span>",Img:"img/JarvanIV.png",Value:vote4,address:"0x59019364d6674bd64fb40efa43161e0a86520a09"}
+  ],
+  Init:function(){
+    for(var i=0;i<Vote.voteJson.length;i++){
+      var mName=Vote.voteJson[i].Name;
+      var mImg=Vote.voteJson[i].Img;
+      var mValue=Vote.voteJson[i].Value;
+      var address=Vote.voteJson[i].address;
+      var VoteItem=$("<div></div>");
+      VoteItem.attr("class","VoteItem");
+
+      $("#VoteMain").append(VoteItem);
+      
+      var VoteImg=$("<img title=\"支持一下\" src=\""+mImg+"\" />");
+      VoteImg.attr("class","VoteImg");
+      VoteImg.attr("address",address);
+
+      VoteImg.click(function(){
+          var address=$(this).attr("address");
+          $.post("http://127.0.0.1:3000/vote",
+            {
+              address:address,
+            },
+            function(result){
+                alert("投票成功");
+                window.location.reload();
+              }
+           );
+      });
+      VoteItem.append(VoteImg);
+
+      var VoteValue=$("<div></div>");
+      VoteValue.attr("class","VoteValue");
+      VoteValue.css("margin-top",300-20-mValue+"px");
+      VoteValue.animate({height:mValue+"px"},500);
+      VoteItem.append(VoteValue);
+      
+      var VoteSpan=$("<div>"+mValue+"</div>");
+      VoteSpan.attr("class","VoteSpan");
+      VoteValue.append(VoteSpan);
+      
+      var VoteSpanTri=$("<span></span>");
+      VoteSpanTri.attr("class","VoteSpanTri");
+      VoteSpan.append(VoteSpanTri);
+      
+      
+      var VoteText=$("<p></p>");
+      VoteText.html(mName);
+      VoteText.attr("class","VoteText");
+      VoteItem.append(VoteText);
+    }
+  }
+}
+
+</script>
+
+
+</html>
+
